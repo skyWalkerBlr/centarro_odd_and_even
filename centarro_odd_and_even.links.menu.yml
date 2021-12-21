@@ -1,0 +1,6 @@
+centarro_odd_and_even.admin_settings_form:
+  title: 'Centarro "Odd/Even" Settings'
+  route_name: centarro_odd_and_even.admin_settings_form
+  description: 'Manage "Odd/Even" Settings'
+  parent: system.admin_config_development
+  weight: 99

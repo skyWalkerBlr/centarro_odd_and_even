@@ -1,0 +1,5 @@
+services:
+  centarro_odd_and_even.odd_and_even_helper:
+    class: Drupal\centarro_odd_and_even\Service\OddAndEvenHelper
+    arguments: [ '@datetime.time', '@date.formatter' , '@entity_type.manager', '@config.factory' ]
+

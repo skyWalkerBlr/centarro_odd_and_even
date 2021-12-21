@@ -1,0 +1,17 @@
+centarro_odd_and_even.odd_and_even_page:
+  path: '/odd-and-even'
+  defaults:
+    _controller: '\Drupal\centarro_odd_and_even\Controller\OddAndEvenController::content'
+    _title: 'Odd and Even'
+  requirements:
+    _permission: 'access content'
+
+centarro_odd_and_even.admin_settings_form:
+  path: '/admin/config/centarro_odd_and_even/settings'
+  defaults:
+    _form: '\Drupal\centarro_odd_and_even\Form\OddAndEvenConfigForm'
+    _title: 'Odd and Even Settings Form'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE

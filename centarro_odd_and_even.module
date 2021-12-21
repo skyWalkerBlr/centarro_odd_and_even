@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * @file
+ * Contains centarro_odd_and_even.module.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function centarro_odd_and_even_theme($existing, $type, $theme, $path) {
+  return [
+    'odd_and_even' => [
+      'render element' => 'content',
+      'template' => 'odd-and-even',
+      'variables' => [
+        'rendered_answer' => NULL,
+        'rendered_node' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Custom callback for Cron Job.
+ */
+function centarro_odd_and_even_callback() {
+  // Here we need to invalidate custom tag.
+  \Drupal::service('cache_tags.invalidator')->invalidateTags(['odd_and_even_cache_tag']);
+}
