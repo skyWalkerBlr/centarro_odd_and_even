@@ -57,15 +57,6 @@ class OddAndEvenConfigForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config(static::SETTINGS);
 
-    $form['node_for_even'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Node ID "Even"'),
-      '#description' => $this->t('Node ID which is used for "Even" minute value'),
-      '#maxlength' => 32,
-      '#size' => 32,
-      '#default_value' => $config->get('node_for_even'),
-    ];
-
     $form['node_for_odd'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Node ID "Odd"'),
@@ -73,6 +64,15 @@ class OddAndEvenConfigForm extends ConfigFormBase {
       '#maxlength' => 32,
       '#size' => 32,
       '#default_value' => $config->get('node_for_odd'),
+    ];
+
+    $form['node_for_even'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Node ID "Even"'),
+      '#description' => $this->t('Node ID which is used for "Even" minute value'),
+      '#maxlength' => 32,
+      '#size' => 32,
+      '#default_value' => $config->get('node_for_even'),
     ];
 
     return parent::buildForm($form, $form_state);

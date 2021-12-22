@@ -46,6 +46,13 @@ class OddAndEvenHelper implements OddAndEvenHelperInterface {
   protected $configFactory;
 
   /**
+   * The config itself.
+   *
+   * @var \Drupal\Core\Config\Config
+   */
+  protected $config;
+
+  /**
    * Constructs a new Odd And Even Helper.
    *
    * @param \Drupal\Component\Datetime\TimeInterface $current_time
@@ -62,12 +69,13 @@ class OddAndEvenHelper implements OddAndEvenHelperInterface {
     $this->dateFormatterService = $date_formatter;
     $this->entityTypeManager = $entity_type_manager;
     $this->configFactory = $config_factory;
+    $this->config = $this->configFactory->getEditable('centarro_odd_and_even.adminsettings');
   }
 
   /**
    * {@inheritdoc}
    */
-  public function minuteIsOdd(): bool {
+  public function minuteIsEven(): bool {
     // At first, we need to get current time.
     $current_time_timestamp = $this->currentTimeService->getCurrentTime();
     $current_time_in_minutes = $this->dateFormatterService->format($current_time_timestamp, 'custom', 'i');
@@ -80,7 +88,7 @@ class OddAndEvenHelper implements OddAndEvenHelperInterface {
    * {@inheritdoc}
    */
   public function getRenderedAnswer(): object {
-    $odd_or_even = $this->minuteIsOdd() ? $this->t('even') : $this->t('odd');
+    $odd_or_even = $this->minuteIsEven() ? $this->t('even') : $this->t('odd');
 
     return $this->t('Current minute is @odd_or_even', ['@odd_or_even' => $odd_or_even]);
   }
@@ -89,10 +97,8 @@ class OddAndEvenHelper implements OddAndEvenHelperInterface {
    * {@inheritdoc}
    */
   public function getRenderedNode(): mixed {
-    // Read the config values
-    $config = $this->configFactory->getEditable('centarro_odd_and_even.adminsettings');
     // Here we need to get node id based on minute value.
-    $node_id_based_on_minute = $this->minuteIsOdd() ? $config->get('node_for_even') : $config->get('node_for_odd');
+    $node_id_based_on_minute = $this->minuteIsEven() ? $this->config->get('node_for_even') : $this->config->get('node_for_odd');
 
     // Once we get the right node ID we need to check if this node exists.
     // Otherwise, we need to say something to the user that the node is not exist.
@@ -103,6 +109,13 @@ class OddAndEvenHelper implements OddAndEvenHelperInterface {
     }
 
     return $this->t('Sorry, but you don\'t have Node with ID : @node_id.', ['@node_id' => $node_id_based_on_minute]);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getOddAndEvenConfiguration(): object {
+    return $this->config;
   }
 
 }

@@ -20,11 +20,3 @@ function centarro_odd_and_even_theme($existing, $type, $theme, $path) {
     ],
   ];
 }
-
-/**
- * Custom callback for Cron Job.
- */
-function centarro_odd_and_even_callback() {
-  // Here we need to invalidate custom tag.
-  \Drupal::service('cache_tags.invalidator')->invalidateTags(['odd_and_even_cache_tag']);
-}

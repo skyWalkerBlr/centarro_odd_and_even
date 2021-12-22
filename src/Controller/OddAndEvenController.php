@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class OddAndEvenController extends ControllerBase {
 
   /**
-   * The oddAndEvenHelper Service.
+   * The OddAndEvenHelper Service.
    *
    * @var \Drupal\centarro_odd_and_even\Service\OddAndEvenHelperInterface
    */
@@ -33,17 +33,33 @@ class OddAndEvenController extends ControllerBase {
    * Odd and Even Page Content.
    */
   public function content() {
-    // The main problem here that we can not use max-age with 60 seconds.
-    // Because user can load page in any time. In this case we need to use here
-    // custom cache tag and clear it via hook_cron every minute.
     return [
       '#theme' => 'odd_and_even',
       '#rendered_answer' => $this->oddAndEvenHelper->getRenderedAnswer(),
       '#rendered_node' => $this->oddAndEvenHelper->getRenderedNode(),
       '#cache' => [
-        'tags' => ['odd_and_even_cache_tag'],
+        'tags' => $this->getCacheTags(),
+        'contexts' => $this->getCacheContext(),
       ],
     ];
+  }
+
+  /**
+   * Helper function to get cache tags.
+   */
+  public function getCacheTags(): array {
+    return [
+      "node:{$this->oddAndEvenHelper->getOddAndEvenConfiguration()->get('node_for_even')}",
+      "node:{$this->oddAndEvenHelper->getOddAndEvenConfiguration()->get('node_for_odd')}",
+      'odd_and_even_cache_tag',
+    ];
+  }
+
+  /**
+   * Helper function to get cache context.
+   */
+  public function getCacheContext(): array {
+    return ['minute'];
   }
 
 }
